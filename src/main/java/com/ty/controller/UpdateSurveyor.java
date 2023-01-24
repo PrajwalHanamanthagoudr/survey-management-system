@@ -1,0 +1,38 @@
+package com.ty.controller;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.ty.dto.Surveyor;
+import com.ty.service.SurveyorService;
+
+@WebServlet(value = "/updatesurveyor")
+public class UpdateSurveyor extends HttpServlet{
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		int id=Integer.parseInt(req.getParameter("id"));
+		String name=req.getParameter("name");
+		String email=req.getParameter("email");
+		String password=req.getParameter("password");
+		
+		Surveyor surveyor=new Surveyor();
+		surveyor.setId(id);
+		surveyor.setName(name);
+		surveyor.setEmail(email);
+		surveyor.setPassword(password);
+		
+		SurveyorService service=new SurveyorService();
+		 service.updateSurveyor(surveyor.getId(),surveyor);
+		
+		RequestDispatcher dispatcher=req.getRequestDispatcher("viewadmin.jsp");
+		dispatcher.forward(req, resp);
+	}
+}
